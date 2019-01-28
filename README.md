@@ -1,13 +1,15 @@
+# Tilde Enhanced
+
+A slightly modified version of [Cade Scroggins](https://github.com/cadejscroggins)'s homepage [Tilde](https://github.com/cadejscroggins/tilde).
+
 ## Screenshots 
 
 ![Screenshot](assets/screenshot.png)
 
-# Tilde Enhanced
-
-A slightly modified version of [Cade Scroggins](https://github.com/cadejscroggins)'s homepage [Tilde](https://github.com/cadejscroggins/tilde).
-Most of the features are carried over from the original source.
 
 ## Added Features
+Most of the features are carried over from the original source.
+Few of the added features are:
 
 - Clicking on the clock will bring up pre-defined sites.
 - Available sites show their icons instead of their corresponding keys.

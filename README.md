@@ -18,6 +18,8 @@ Few of the added features are:
 
 ## Usage
 
+To use Tilde as your homepage, simply set your browser's home URL to
+Tilde's index file.
 To go to a site, enter the first letter of the site then hit enter.
 To view the available sites, press `?` or click on the clock.
 If your input doesn't match any of the commands,

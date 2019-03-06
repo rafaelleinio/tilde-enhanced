@@ -11,9 +11,11 @@ A slightly modified version of [Cade Scroggins](https://github.com/cadejscroggin
 Most of the features are carried over from the original source.
 Few of the added features are:
 
-- Clicking on the clock will bring up pre-defined sites.
+- Added a "Quick Launch" functionality, which launches all the sites with `quickLaunch` 
+property set to true upon hitting `!` key.
+- Clicking on the clock brings up pre-defined sites.
 - Available sites show their icons instead of their corresponding keys.
-- Other small changes on grids and boxes.
+- Other small changes on grids.
 
 
 ## Usage
@@ -30,7 +32,9 @@ a generic DuckDuckGo search will be triggered. For example:
 - Entering `cats` would search [Cats](https://duckduckgo.com/?q=cats).
 
 Note that by default, queries are searched on DuckDuckGo but this can be
-configured easily by updating two lines.
+configured easily by updating two lines on. Check [Configuration](#configuration) for details.
+
+You might have to allow pop-ups for your homepage to use quick launch feature.
 
 This version is not suitable for use on mobile as clicking on the clock will
 only bring up pre-defined sites.
@@ -77,7 +81,7 @@ This allows you to invoke Tilde with your native browser search bar.
 
 ## Configuration
 
-The above is just the beginning. Open up the [index.html](index.html) file and
+The above is just the beginning. Open up the [script.js](assets/script.js) file and
 read through the `CONFIG`!
 
 ## License

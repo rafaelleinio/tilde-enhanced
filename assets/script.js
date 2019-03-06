@@ -1,7 +1,7 @@
 const CONFIG = {
   /**
-   * The category, name, key, url, search path, color and icon for your commands.
-   * Icons must be added to "icons" folder and their names must be updated.
+   * The category, name, key, url, search path, color, icon, and quicklaunch properties for your commands.
+   * Icons must be added to "icons" folder and their values/names must be updated.
    * If none of the specified keys are matched, the '*' key is used.
    * Commands without a category don't show up in the help menu.
    * Update line 16 and 14 if you prefer using Google.
@@ -22,6 +22,7 @@ const CONFIG = {
       search: '/#search/text={}',
       color: 'linear-gradient(135deg, #dd5145, #dd5145)',
       icon: 'mail.png',
+      quickLaunch: true,
     },
     {
       category: 'General',
@@ -31,6 +32,7 @@ const CONFIG = {
       search: '/drive/search?q={}',
       color: 'linear-gradient(135deg, #FFD04B, #1EA362, #4688F3)',
       icon: 'drive.png',
+      quickLaunch: false,
     },
     {
       category: 'General',
@@ -40,6 +42,7 @@ const CONFIG = {
       search: '/search/results/all/?keywords={}',
       color: 'linear-gradient(135deg, #006CA4, #0077B5)',
       icon: 'linkedin.png',
+      quickLaunch: true,
     },
     {
       category: 'Tech',
@@ -49,6 +52,7 @@ const CONFIG = {
       search: '/search?q={}',
       color: 'linear-gradient(135deg, #2b2b2b, #3b3b3b)',
       icon: 'github.png',
+      quickLaunch: true,
     },
     {
       category: 'Tech',
@@ -58,6 +62,7 @@ const CONFIG = {
       search: '/search?q={}',
       color: 'linear-gradient(135deg, #53341C, #F48024)',
       icon: 'stackoverflow.png',
+      quickLaunch: true,
     },
     {
       category: 'Tech',
@@ -67,6 +72,7 @@ const CONFIG = {
       search: '/search/?ie=UTF-8&q={}',
       color: 'linear-gradient(135deg, #FF4E00, #B83800)',
       icon: 'arstechnica.png',
+      quickLaunch: false,
     },
     {
       category: 'Fun',
@@ -76,6 +82,7 @@ const CONFIG = {
       search: '/results?search_query={}',
       color: 'linear-gradient(135deg, #cd201f, #cd4c1f)',
       icon: 'youtube.png',
+      quickLaunch: false,
     },
     {
       category: 'Fun',
@@ -84,6 +91,7 @@ const CONFIG = {
       url: 'https://www.netflix.com',
       color: 'linear-gradient(135deg, #E50914, #CB020C)',
       icon: 'netflix.png',
+      quickLaunch: false,
     },
     {
       category: 'Fun',
@@ -93,6 +101,7 @@ const CONFIG = {
       search: '/directory/game/{}',
       color: 'linear-gradient(135deg, #6441a5, #4b367c)',
       icon: 'twitch.png',
+      quickLaunch: false,
     },
     {
       category: 'Other',
@@ -102,6 +111,7 @@ const CONFIG = {
       search: '/search?q={}',
       color: 'linear-gradient(135deg, #FF8456, #FF4500)',
       icon: 'reddit.png',
+      quickLaunch: false,
     },
     {
       category: 'Other',
@@ -110,6 +120,7 @@ const CONFIG = {
       url: 'https://twitter.com',
       color: 'linear-gradient(135deg, #C0A886, #E2DBC8)',
       icon: 'twitter.png',
+      quickLaunch: true,
     },
     {
       category: 'Other',
@@ -119,6 +130,7 @@ const CONFIG = {
       search: '/find?ref_=nv_sr_fn&q={}',
       color: 'linear-gradient(135deg, #7A5F00, #E8B708)',
       icon: 'imdb.png',
+      quickLaunch: false,
     },
   ],
 
@@ -237,6 +249,8 @@ const $ = {
         return ctrl ? 'c-n' : 'n';
       case 80:
         return ctrl ? 'c-p' : 'p';
+      case 189:
+        return 'dash';
       case 91:
       case 93:
       case 224:
@@ -291,6 +305,10 @@ class Help {
     this._toggled = false;
     this._handleKeydown = this._handleKeydown.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.launch = this.launch.bind(this);
+    this._inputEl = $.el('#search-input');
+    this._inputElVal = '';
+    this._suggester = options.suggester;
     this._buildAndAppendLists();
     this._registerEvents();
   }
@@ -298,6 +316,24 @@ class Help {
   toggle(show) {
     this._toggled = typeof show !== 'undefined' ? show : !this._toggled;
     this._toggled ? $.bodyClassAdd('help') : $.bodyClassRemove('help');
+  }
+
+  hide() {
+    $.bodyClassRemove('form');
+    this._inputEl.value = '';
+    this._inputElVal = '';
+    this._suggester.suggest('');
+  }
+
+  launch() {
+    this.hide();
+    this.toggle(true);
+    $.bodyClassAdd('help');
+    for (let i = 0; i < CONFIG.commands.length; i++) {
+      if (CONFIG.commands[i].quickLaunch === true) {
+        window.open(CONFIG.commands[i].url);
+      }
+    }
   }
 
   _buildAndAppendLists() {
@@ -735,6 +771,7 @@ class Form {
     this._parseQuery = options.parseQuery;
     this._suggester = options.suggester;
     this._toggleHelp = options.toggleHelp;
+    this._quickLaunch = options.quickLaunch;
     this._clearPreview = this._clearPreview.bind(this);
     this._handleInput = this._handleInput.bind(this);
     this._handleKeydown = this._handleKeydown.bind(this);
@@ -768,12 +805,14 @@ class Form {
   _handleInput() {
     const newQuery = this._inputEl.value;
     const isHelp = newQuery === '?';
+    const isLaunch = newQuery === '!';
     const { isKey } = this._parseQuery(newQuery);
     this._inputElVal = newQuery;
     this._suggester.suggest(newQuery);
     this._setBackgroundFromQuery(newQuery);
     if (!newQuery || isHelp) this.hide();
     if (isHelp) this._toggleHelp();
+    if (isLaunch) this._quickLaunch();
     if (this._instantRedirect && isKey) this._submitWithValue(newQuery);
   }
 
@@ -868,6 +907,7 @@ const suggester = new Suggester({
 const help = new Help({
   commands: CONFIG.commands,
   newTab: CONFIG.newTab,
+  suggester,
 });
 
 const form = new Form({
@@ -877,6 +917,7 @@ const form = new Form({
   parseQuery: queryParser.parse,
   suggester,
   toggleHelp: help.toggle,
+  quickLaunch: help.launch,
 });
 
 new Clock({

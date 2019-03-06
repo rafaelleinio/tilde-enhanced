@@ -4,7 +4,7 @@ const CONFIG = {
    * Icons must be added to "icons" folder and their values/names must be updated.
    * If none of the specified keys are matched, the '*' key is used.
    * Commands without a category don't show up in the help menu.
-   * Update line 16 and 14 if you prefer using Google.
+   * Update line 11 and 13 if you prefer using Google.
    */
   commands: [
     {

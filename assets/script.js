@@ -181,7 +181,7 @@ const CONFIG = {
   /**
    * Reverse color theme
    */
-  reversedColors: true,
+  reversedColors: false,
 
   /**
    * The delimiter between a command key and your search query. For example,

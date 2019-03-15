@@ -176,7 +176,12 @@ const CONFIG = {
   /**
    * Dynamic overlay background colors when command domains are matched.
    */
-  colors: true,
+  colors: false,
+
+  /**
+   * Reverse color theme
+   */
+  reversedColors: true,
 
   /**
    * The delimiter between a command key and your search query. For example,
@@ -778,10 +783,12 @@ class Form {
     this._previewValue = this._previewValue.bind(this);
     this._submitForm = this._submitForm.bind(this);
     this._submitWithValue = this._submitWithValue.bind(this);
+    this._reverseColors = options.reversedColors;
     this.hide = this.hide.bind(this);
     this.show = this.show.bind(this);
     this._registerEvents();
     this._loadQueryParam();
+    this.reverse();
   }
 
   hide() {
@@ -795,6 +802,13 @@ class Form {
   show() {
     $.bodyClassAdd('form');
     this._inputEl.focus();
+  }
+
+  reverse() {
+    if (this._reverseColors) {
+      document.documentElement.style.setProperty('--background', '#F1F1F1');
+      document.documentElement.style.setProperty('--foreground', '#0e0e0e');
+    }
   }
 
   _clearPreview() {
@@ -918,6 +932,7 @@ const form = new Form({
   suggester,
   toggleHelp: help.toggle,
   quickLaunch: help.launch,
+  reversedColors: CONFIG.reversedColors,
 });
 
 new Clock({

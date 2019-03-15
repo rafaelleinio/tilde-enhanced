@@ -176,7 +176,7 @@ const CONFIG = {
   /**
    * Dynamic overlay background colors when command domains are matched.
    */
-  colors: false,
+  colors: true,
 
   /**
    * Reverse color theme

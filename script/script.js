@@ -21,7 +21,7 @@ const CONFIG = {
       url: 'https://gmail.com',
       search: '/#search/text={}',
       color: 'linear-gradient(135deg, #dd5145, #dd5145)',
-      icon: 'mail.png',
+      icon: 'mail',
       quickLaunch: true,
     },
     {
@@ -31,7 +31,7 @@ const CONFIG = {
       url: 'https://drive.google.com',
       search: '/drive/search?q={}',
       color: 'linear-gradient(135deg, #FFD04B, #1EA362, #4688F3)',
-      icon: 'drive.png',
+      icon: 'drive',
       quickLaunch: false,
     },
     {
@@ -41,7 +41,7 @@ const CONFIG = {
       url: 'https://linkedin.com',
       search: '/search/results/all/?keywords={}',
       color: 'linear-gradient(135deg, #006CA4, #0077B5)',
-      icon: 'linkedin.png',
+      icon: 'linkedin',
       quickLaunch: true,
     },
     {
@@ -51,7 +51,7 @@ const CONFIG = {
       url: 'https://github.com',
       search: '/search?q={}',
       color: 'linear-gradient(135deg, #2b2b2b, #3b3b3b)',
-      icon: 'github.png',
+      icon: 'github',
       quickLaunch: true,
     },
     {
@@ -61,7 +61,7 @@ const CONFIG = {
       url: 'https://stackoverflow.com',
       search: '/search?q={}',
       color: 'linear-gradient(135deg, #53341C, #F48024)',
-      icon: 'stackoverflow.png',
+      icon: 'stackoverflow',
       quickLaunch: true,
     },
     {
@@ -71,7 +71,7 @@ const CONFIG = {
       url: 'https://arstechnica.com',
       search: '/search/?ie=UTF-8&q={}',
       color: 'linear-gradient(135deg, #FF4E00, #B83800)',
-      icon: 'arstechnica.png',
+      icon: 'arstechnica',
       quickLaunch: false,
     },
     {
@@ -81,7 +81,7 @@ const CONFIG = {
       url: 'https://youtube.com',
       search: '/results?search_query={}',
       color: 'linear-gradient(135deg, #cd201f, #cd4c1f)',
-      icon: 'youtube.png',
+      icon: 'youtube',
       quickLaunch: false,
     },
     {
@@ -90,7 +90,7 @@ const CONFIG = {
       key: 'n',
       url: 'https://www.netflix.com',
       color: 'linear-gradient(135deg, #E50914, #CB020C)',
-      icon: 'netflix.png',
+      icon: 'netflix',
       quickLaunch: false,
     },
     {
@@ -100,7 +100,7 @@ const CONFIG = {
       url: 'https://www.twitch.tv',
       search: '/directory/game/{}',
       color: 'linear-gradient(135deg, #6441a5, #4b367c)',
-      icon: 'twitch.png',
+      icon: 'twitch',
       quickLaunch: false,
     },
     {
@@ -110,7 +110,7 @@ const CONFIG = {
       url: 'https://reddit.com',
       search: '/search?q={}',
       color: 'linear-gradient(135deg, #FF8456, #FF4500)',
-      icon: 'reddit.png',
+      icon: 'reddit',
       quickLaunch: false,
     },
     {
@@ -119,7 +119,7 @@ const CONFIG = {
       key: 'o',
       url: 'https://twitter.com',
       color: 'linear-gradient(135deg, #C0A886, #E2DBC8)',
-      icon: 'twitter.png',
+      icon: 'twitter',
       quickLaunch: true,
     },
     {
@@ -129,7 +129,7 @@ const CONFIG = {
       url: 'https://imdb.com',
       search: '/find?ref_=nv_sr_fn&q={}',
       color: 'linear-gradient(135deg, #7A5F00, #E8B708)',
-      icon: 'imdb.png',
+      icon: 'imdb',
       quickLaunch: false,
     },
   ],
@@ -314,8 +314,10 @@ class Help {
     this._inputEl = $.el('#search-input');
     this._inputElVal = '';
     this._suggester = options.suggester;
+    this._reverseColors = options.reversedColors;
     this._buildAndAppendLists();
     this._registerEvents();
+    this._invertValue = 0;
   }
 
   toggle(show) {
@@ -359,13 +361,17 @@ class Help {
   }
 
   _buildListCommands(currentCategory) {
+    if (this._reverseColors) {
+      this._invertValue = 1;
+    }
+
     return this._commands
       .map(({ category, name, key, url, icon }) => {
         if (category === currentCategory) {
           return `
             <li class="command">
               <a href="${url}" target="${this._newTab ? '_blank' : '_self'}">
-                <span class="command-key"><img src='assets/icons/${icon}' height = 36px center></span>
+                <span class="command-key"><img src='assets/icons/${icon}.png' height = 36px center style="filter: invert(${this._invertValue});"></span>
                 <span class="command-name">${name}</span>
               </a>
             </li>
@@ -922,6 +928,7 @@ const help = new Help({
   commands: CONFIG.commands,
   newTab: CONFIG.newTab,
   suggester,
+  reversedColors: CONFIG.reversedColors,
 });
 
 const form = new Form({

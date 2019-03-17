@@ -317,7 +317,7 @@ class Help {
     this._reverseColors = options.reversedColors;
     this._buildAndAppendLists();
     this._registerEvents();
-    this._invertValue = 0;
+    this._invertValue;
   }
 
   toggle(show) {
@@ -361,9 +361,7 @@ class Help {
   }
 
   _buildListCommands(currentCategory) {
-    if (this._reverseColors) {
-      this._invertValue = 1;
-    }
+    this._invertValue = this._reverseColors ? 1: 0;
 
     return this._commands
       .map(({ category, name, key, url, icon }) => {

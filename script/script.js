@@ -1,4 +1,4 @@
-const CONFIG = {
+const CONFIGObj = {
   /**
    * The category, name, key, url, search path, color, icon, and quicklaunch properties for your commands.
    * Icons must be added to "icons" folder and their values/names must be updated.
@@ -205,6 +205,17 @@ const CONFIG = {
    */
   twentyFourHourClock: true,
 };
+let CONFIG;
+
+if (localStorage.getItem('CONFIG') === null){
+  CONFIG = CONFIGObj;
+}
+
+else {
+  CONFIG = JSON.parse(localStorage.getItem('CONFIG'));
+}
+
+
 
 const $ = {
   bodyClassAdd: c => $.el('body').classList.add(c),
@@ -815,6 +826,14 @@ class Form {
     }
   }
 
+  _reverseConfig() {
+    CONFIG.reversedColors = !CONFIG.reversedColors;
+    localStorage.clear();
+    localStorage.setItem('CONFIG', JSON.stringify(CONFIG));
+    location.reload();
+    console.log(CONFIG.reversedColors);
+  }
+
   _clearPreview() {
     this._previewValue(this._inputElVal);
     this._inputEl.focus();
@@ -824,6 +843,7 @@ class Form {
     const newQuery = this._inputEl.value;
     const isHelp = newQuery === '?';
     const isLaunch = newQuery === '!';
+    const isReverse = newQuery === 'reverse!';
     const { isKey } = this._parseQuery(newQuery);
     this._inputElVal = newQuery;
     this._suggester.suggest(newQuery);
@@ -831,6 +851,7 @@ class Form {
     if (!newQuery || isHelp) this.hide();
     if (isHelp) this._toggleHelp();
     if (isLaunch) this._quickLaunch();
+    if (isReverse) this._reverseConfig();
     if (this._instantRedirect && isKey) this._submitWithValue(newQuery);
   }
 

@@ -15,7 +15,7 @@ Few of the added features are:
 property set to true upon hitting `!` key.
 - Clicking on the clock brings up pre-defined sites.
 - Available sites show their icons instead of their corresponding keys.
-- Added the option to reverse colour theme.
+- Added the option to reverse colour theme. You can either edit config or use `reverse!` command.
 - Other small changes on grids.
 
 

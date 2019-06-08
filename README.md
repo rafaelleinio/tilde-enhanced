@@ -1,6 +1,6 @@
 # Tilde Enhanced
 
-A slightly modified version of [Cade Scroggins](https://github.com/cadejscroggins)'s homepage [Tilde](https://github.com/cadejscroggins/tilde).
+Based on [Cade Scroggins](https://github.com/cadejscroggins)'s [Tilde](https://github.com/cadejscroggins/tilde).
 
 ## Screenshots 
 

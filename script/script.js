@@ -299,7 +299,7 @@ class Clock {
 
       amPm =
         `&nbsp;<span class="am-pm">` +
-        `${date.getHours() > 12 ? 'PM' : 'AM'}</span>`;
+        `${date.getHours() >= 12 ? 'PM' : 'AM'}</span>`;
     }
 
     const minutes = $.pad(date.getMinutes());

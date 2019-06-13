@@ -82,9 +82,8 @@ This allows you to invoke Tilde with your native browser search bar.
 
 ## Configuration
 
-The above is just the beginning. Open up the [script.js](assets/script.js) file and
-read through the `CONFIG`!
+Open up the [script.js](assets/script.js) file and read through the `CONFIG`!
 
 ## License
 
-Feel free to [use this and modify it however you like](https://github.com/cadejscroggins/tilde/blob/master/LICENSE).
+Feel free to [use this and modify it however you like](https://github.com/Ozencb/tilde-enhanced/blob/master/LICENSE).

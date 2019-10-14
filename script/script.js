@@ -1,4 +1,14 @@
-const CONFIGObj = {
+let reverseColorCookie;
+
+if (localStorage.getItem('reverseColorCookie') === null){
+  reverseColorCookie = false;
+}
+
+else {
+  reverseColorCookie = JSON.parse(localStorage.getItem('reverseColorCookie'));
+}
+
+const CONFIG = {
   /**
    * The category, name, key, url, search path, color, icon, and quicklaunch properties for your commands.
    * Icons must be added to "icons" folder and their values/names must be updated.
@@ -181,7 +191,7 @@ const CONFIGObj = {
   /**
    * Reverse color theme
    */
-  reversedColors: false,
+  reversedColors: reverseColorCookie,
 
   /**
    * The delimiter between a command key and your search query. For example,
@@ -205,16 +215,6 @@ const CONFIGObj = {
    */
   twentyFourHourClock: true,
 };
-let CONFIG;
-
-if (localStorage.getItem('CONFIG') === null){
-  CONFIG = CONFIGObj;
-}
-
-else {
-  CONFIG = JSON.parse(localStorage.getItem('CONFIG'));
-}
-
 
 
 const $ = {
@@ -827,11 +827,10 @@ class Form {
   }
 
   _reverseConfig() {
-    CONFIG.reversedColors = !CONFIG.reversedColors;
+    reverseColorCookie = !reverseColorCookie;
     localStorage.clear();
-    localStorage.setItem('CONFIG', JSON.stringify(CONFIG));
+    localStorage.setItem('reverseColorCookie', JSON.stringify(reverseColorCookie));
     location.reload();
-    console.log(CONFIG.reversedColors);
   }
 
   _clearPreview() {
